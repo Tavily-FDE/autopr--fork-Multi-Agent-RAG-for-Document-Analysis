@@ -1,0 +1,42 @@
+{
+  "llm": {
+    "model": "llama3.2",
+    "temperature": 0.1,
+    "base_url": "http://localhost:11434"
+  },
+  "embedding": {
+    "model_name": "all-MiniLM-L6-v2"
+  },
+  "rag": {
+    "vector_db": "chroma",    
+    "chunk_size": 1000,
+    "chunk_overlap": 150,
+    "retriever_k": 3,
+    "chroma": {
+      "persist_dir": "./chroma_db"
+    },
+    "faiss": {
+      "persist_dir": "./faiss_db",
+      "index_name": "papers_index"
+    },
+    "papers_dir": "./papers"
+  },
+  "context_limits": {
+    "grader_context": 1500,
+    "writer_context": 3000
+  },
+  "critic": {
+    "max_iterations": 3,
+    "approval_threshold": 0.7
+  },
+  "prompts": {
+    "topic_relevance_check": "You are a topic classifier. First, determine if the user's question is related to the general topic of your knowledge base (technical documentation, tutorials, APIs, frameworks, etc.).\n\nUser Question: \"{question}\"\n\nDoes this question fit within the technical/knowledge base scope? (Yes for technical questions like 'How to use YOLOv7?', 'What is REST API?', etc. No for questions like 'What is the weather?', 'Tell me a joke', etc.)",
+    "grader": "You are a data quality reviewer. Your task is to determine whether the provided document is TRULY relevant to the user's question.\n\nUser Question: \"{question}\"\n\nDocument Text:\n{context}\n\nBased on the document, is it directly relevant to answering the user's question? Only answer if the document contains information that directly addresses the question.",
+    "writer_initial": "Please use the following sources to create a professional, well-structured Markdown report.",
+    "writer_feedback": "The previous report was rejected. Please revise it based on the following feedback:\n\n{feedback}\n\nEnsure the report addresses all concerns and maintains professional quality.",
+    "writer_sections": "The report should include:\n- Executive Summary\n- Key Findings\n- Technical Details\n- Conclusion\n- Sources",
+    "writer_template": "Question: {question}\n\n{instruction}\n\nLOCAL SOURCES (PDF):\n{rag_context}\n\nWEB SOURCES:\n{web_context}\n\n{sections}",
+    "critic": "Question: {question}\n\nReport:\n{report}\n\nEvaluate this report:\n1. Does it adequately address the user's question?\n2. Are the facts technically accurate?\n3. Is it well-structured in Markdown?\n4. Are there any missing critical information?\n\nRespond honestly but fairly, considering that the report may have partially addressed the question.",
+    "irrelevant_question": "The question appears to be outside the scope of the available knowledge base and web search cannot provide sufficient information. Please ask a question related to the available topics or provide more specific details."
+  }
+}
