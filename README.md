@@ -13,7 +13,7 @@ An intelligent multi-agent system combining Retrieval-Augmented Generation (RAG)
 ## 📁 Project Structure
 
 ```
-llm/
+project-folder/
 ├── config.json                      # Configuration file (setup here)
 ├── main.py                         # Main orchestrator (entry point)
 ├── models.py                       # Pydantic models & TypedDict
