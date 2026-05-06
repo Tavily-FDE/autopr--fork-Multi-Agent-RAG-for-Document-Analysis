@@ -3,7 +3,6 @@ Workflow node implementations for the RAG Multi-Agent system.
 """
 from typing import Any, Dict
 from langchain_ollama import ChatOllama
-from langchain_community.tools import DuckDuckGoSearchRun
 from langchain_core.retrievers import BaseRetriever
 
 from models import AgentState, GraderOutput, CriticOutput
@@ -20,7 +19,7 @@ class WorkflowNodes:
         grader_llm: Any,
         critic_llm: Any,
         retriever: BaseRetriever,
-        web_search_tool: DuckDuckGoSearchRun
+        web_search_tool: Any
     ):
         self.config = config
         self.llm = llm

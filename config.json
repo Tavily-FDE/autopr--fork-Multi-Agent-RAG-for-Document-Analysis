@@ -21,6 +21,9 @@
     },
     "papers_dir": "./papers"
   },
+  "web_search": {
+    "provider": "duckduckgo"
+  },
   "context_limits": {
     "grader_context": 1500,
     "writer_context": 3000

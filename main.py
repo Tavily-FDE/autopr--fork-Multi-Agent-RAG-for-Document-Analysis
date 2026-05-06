@@ -2,9 +2,11 @@
 Main RAG Multi-Agent system orchestrator.
 """
 import json
+import os
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_ollama import ChatOllama
 from langchain_community.tools import DuckDuckGoSearchRun
+from langchain_community.tools.tavily_search import TavilySearchResults
 from langgraph.graph import StateGraph, START, END
 
 from models import AgentState, GraderOutput, CriticOutput
@@ -44,8 +46,16 @@ class RAGMultiAgent:
         rag = RAGSetup(self.config, self.embeddings)
         self.retriever = rag.setup()
         
-        print("4️⃣  Setting up Web Search Tool (DuckDuckGo)...")
-        self.web_search_tool = DuckDuckGoSearchRun()
+        web_search_provider = self.config.get("web_search", {}).get("provider", "duckduckgo")
+        if web_search_provider == "tavily":
+            print("4️⃣  Setting up Web Search Tool (Tavily)...")
+            tavily_api_key = os.environ.get("TAVILY_API_KEY")
+            if not tavily_api_key:
+                raise ValueError("TAVILY_API_KEY environment variable is required when web_search.provider is 'tavily'")
+            self.web_search_tool = TavilySearchResults(tavily_api_key=tavily_api_key)
+        else:
+            print("4️⃣  Setting up Web Search Tool (DuckDuckGo)...")
+            self.web_search_tool = DuckDuckGoSearchRun()
         
         # Initialize workflow nodes
         self.nodes = WorkflowNodes(
