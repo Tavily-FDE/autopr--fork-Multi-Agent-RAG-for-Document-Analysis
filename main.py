@@ -52,7 +52,7 @@ class RAGMultiAgent:
             tavily_api_key = os.environ.get("TAVILY_API_KEY")
             if not tavily_api_key:
                 raise ValueError("TAVILY_API_KEY environment variable is required when web_search.provider is 'tavily'")
-            self.web_search_tool = TavilySearchResults(tavily_api_key=tavily_api_key)
+            self.web_search_tool = TavilySearchResults()
         else:
             print("4️⃣  Setting up Web Search Tool (DuckDuckGo)...")
             self.web_search_tool = DuckDuckGoSearchRun()

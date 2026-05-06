@@ -5,7 +5,7 @@ An intelligent multi-agent system combining Retrieval-Augmented Generation (RAG)
 **Key Features:**
 - 🤖 Multi-agent workflow powered by LangGraph
 - 📚 RAG with Chroma/FAISS vector databases
-- 🌐 Web search integration via DuckDuckGo
+- 🌐 Web search integration via DuckDuckGo or Tavily
 - 🔄 Iterative report refinement with critic evaluation
 - 🏗️ Modular, production-ready architecture
 - ⚡ Local LLM support with Ollama
@@ -165,9 +165,16 @@ pdf_researcher_node
                     Final Report
 ```
 
+## 🌐 Environment Variables
+
+| Variable | Required | Description |
+|---|---|---|
+| `TAVILY_API_KEY` | Only when `web_search.provider` is `"tavily"` in `config.json` | API key for Tavily web search. Get one at https://tavily.com. Not needed when using the default DuckDuckGo provider. |
+
 ## 🎛️ Configuration
 
 Edit `config.json` to:
+- Switch web search provider: `"web_search": {"provider": "duckduckgo"}` (default) or `"tavily"` (requires `TAVILY_API_KEY`)
 - Switch between **Chroma** and **FAISS**: `"vector_db": "chroma"` or `"faiss"`
 - Adjust LLM settings (model, temperature)
 - Set embedding model

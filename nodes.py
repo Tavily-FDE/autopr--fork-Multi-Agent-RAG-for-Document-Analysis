@@ -110,6 +110,8 @@ class WorkflowNodes:
         print("🌐 [Web Researcher] Searching the internet...")
         try:
             web_results = self.web_search_tool.invoke(question)
+            if isinstance(web_results, list):
+                web_results = "\n\n".join(r.get("content", "") for r in web_results if isinstance(r, dict))
         except Exception as e:
             web_results = f"Web search failed: {str(e)}"
         return {"web_context": web_results}
